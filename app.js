@@ -45,6 +45,8 @@ function createSoup(document){
 
     let main = soup.find('main');//only get the content from the main body of the page
 
+    let bodyContent = soup.find('div',{id:"bodyContent"});
+    
     data.content = {
         "text": getParagraphText(main)
     };
