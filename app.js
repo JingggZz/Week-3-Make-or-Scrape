@@ -1,9 +1,9 @@
 const https = require('https');
 const JSSoup = require('jssoup').default;
 const fs = require('fs');
-const url = ""; // FIRST: find a url of a page you are interested in from wikipedia 
+const url = "https://en.wikipedia.org/wiki/Lantern_Festival"; // FIRST: find a url of a page you are interested in from wikipedia 
 const jsonPath = "./json/"; 
-const name = "";
+const name = "Lantern Festival";
 
 
 /*
