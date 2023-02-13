@@ -11,32 +11,62 @@ This web-scraping example is set up for working with wikipedia.If you want to ad
 to scrape another site you should go and inspect the site in the browser first, then adapt this. 
 */
 
+function getParagraphs(soupTag){
+    let paragraphs = soupTag.findAll('p');
+    let paragraphsText = [];
+    for(let i = 0; i < paragraphs.length; i++){
+        let text = paragraphs[i].getText();
+        paragraphsText.push(text);
+    }
+
+    return paragraphsText;
+}
 
 //returns one large string of all text
 function getParagraphText(soupTag){
     let paragraphs = soupTag.findAll('p');
     
     let text = '';
+    let sentence = [];
 
     for(let i = 0; i < paragraphs.length; i++){
         text += paragraphs[i].getText();
-
+        sentence = text.split('. ')
     }
 
-    return text;
+    return sentence;
 }
 
-function getBodyContent(soupTag){
-    let contents = soupTag.findAll('span');
-    
-    let bodyContent = [];
+function getAllExternalLinks(soupTag){
+    let aTags = soupTag.findAll('a'); // return an array of SoupTag object
+    let links = [];
+   
+    for(let i = 0; i < aTags.length; i++){
+        let attrs = aTags[i].attrs;// get a tag attributes
+        // if there is an href attribute let's get it
+        if('href' in attrs){
+            let hrefValue = attrs.href;
+            if(hrefValue.indexOf('index.php') == -1 && hrefValue[0] != '#' ){
+                //add the start 'https://en.wikipedia.org' to any internal wikipedia urls 
+                if(hrefValue.indexOf('/wiki/') != -1 && hrefValue.indexOf('.org') == -1){
+                    hrefValue = 'https://en.wikipedia.org'+hrefValue;
+                }
 
-    for(let i = 0; i < contents.length; i++){
-        bodyContent += contents[i].getText();
+                let text = aTags[i].getText();
+                let link = {
+                    "href": hrefValue,
+                    "text": text
+                };
 
+                links.push(link);
+            }else{
+                // console.log(hrefValue);
+            }
+        }
+ 
     }
 
-    return bodyContent;
+    return links;
 }
 
 //pass in Plain Old Javascript Object that's formatted as JSON
@@ -62,11 +92,12 @@ function createSoup(document){
 
     let main = soup.find('main');//only get the content from the main body of the page
     
-    let bodyContent = soup.find('bodyContent')
+    let bodyContent = soup.find('div', { id: 'bodyContent' });
 
     data.content = {
-        "text": getParagraphText(main)
+        "externalLinks": getAllExternalLinks(bodyContent),
 
+        "text": getParagraphText(main)
     };
         
     //output json
