@@ -11,15 +11,32 @@ This web-scraping example is set up for working with wikipedia.If you want to ad
 to scrape another site you should go and inspect the site in the browser first, then adapt this. 
 */
 
+
 //returns one large string of all text
 function getParagraphText(soupTag){
     let paragraphs = soupTag.findAll('p');
+    
     let text = '';
+
     for(let i = 0; i < paragraphs.length; i++){
         text += paragraphs[i].getText();
+
     }
 
     return text;
+}
+
+function getBodyContent(soupTag){
+    let contents = soupTag.findAll('span');
+    
+    let bodyContent = [];
+
+    for(let i = 0; i < contents.length; i++){
+        bodyContent += contents[i].getText();
+
+    }
+
+    return bodyContent;
 }
 
 //pass in Plain Old Javascript Object that's formatted as JSON
@@ -44,11 +61,12 @@ function createSoup(document){
     }; 
 
     let main = soup.find('main');//only get the content from the main body of the page
-
-    let bodyContent = soup.find('div',{id:"bodyContent"});
     
+    let bodyContent = soup.find('bodyContent')
+
     data.content = {
         "text": getParagraphText(main)
+
     };
         
     //output json
