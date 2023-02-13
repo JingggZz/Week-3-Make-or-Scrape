@@ -8,15 +8,17 @@ body{
 
 h1{
     font-size: 30px;
-    
 }
 
 p{
     font-size: 16px;
 }
 
-header{
-    padding:0 3%;
+.centered-wrapper{
+    width:1000px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 50px;
 }
 
 main{
@@ -28,7 +30,6 @@ main{
 
 }
 
-footer{
-    width:100%;
-    min-height:100px;
+#json{
+    color:darkseagreen;
 }
