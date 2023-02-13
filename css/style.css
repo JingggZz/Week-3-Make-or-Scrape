@@ -1,6 +1,8 @@
 
 /*This is a comment in CSS*/
-
+html{
+    background-color:rgb(250, 247, 234);
+}
 body{
     font-family: Verdana, sans-serif;
     margin: 0;
@@ -32,4 +34,12 @@ main{
 
 #json{
     color:darkseagreen;
+}
+
+.lanternColor{
+    color:rgb(203, 63, 63);
+}
+
+#tangyuan{
+    color:cornflowerblue;
 }
